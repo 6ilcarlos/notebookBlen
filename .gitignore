@@ -18,3 +18,7 @@ wheels/
 
 # audio files
 *.mp3
+
+# Replit files
+.replit
+replit.nix

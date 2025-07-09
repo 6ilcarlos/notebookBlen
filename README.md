@@ -84,6 +84,26 @@ streamlit run src/notebookllama/Home.py
 
 And start exploring the app at `http://localhost:8751/`.
 
+### Running on Replit
+
+To run this project on Replit:
+
+1.  **Fork the Repl**: Click the "Run on Replit" button (if available) or import the GitHub repository directly into Replit.
+2.  **Configure Secrets**:
+    *   In the Replit sidebar, go to "Secrets".
+    *   Add the following secrets with your API keys:
+        *   `OPENAI_API_KEY`: Your OpenAI API key.
+        *   `ELEVENLABS_API_KEY`: Your ElevenLabs API key.
+        *   `LLAMACLOUD_API_KEY`: Your LlamaCloud API key.
+3.  **Run the Project**:
+    *   Click the "Run" button at the top.
+    *   Replit will automatically install dependencies, run the setup scripts, start the PostgreSQL and Jaeger services using Docker Compose, start the MCP server, and then launch the Streamlit application.
+    *   The application should become available in Replit's webview. You might need to open the webview in a new tab to access all features correctly.
+    *   The first run might take a few minutes to set everything up.
+
+> [!NOTE]
+> The Replit environment is configured using `.replit` and `replit.nix` files. These files handle the installation of Python, `ffmpeg`, `postgresql`, and other dependencies, as well as the execution of necessary setup scripts and servers. Docker and Docker Compose are used within the Replit environment to manage services like PostgreSQL and Jaeger.
+
 ### Contributing
 
 Contribute to this project following the [guidelines](./CONTRIBUTING.md).

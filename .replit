@@ -1,0 +1,62 @@
+# Replit configuration file
+
+# Specify the language and interpreter
+language = "python3"
+
+# Define the command to run the application
+# This command will execute the Streamlit application
+run = "uv run streamlit run src/notebookllama/Home.py"
+
+# Define the command to install dependencies
+# This command will install dependencies using uv
+[packager]
+afterInstall = ["uv sync"]
+
+# Environment variables can be set in the Replit secrets manager
+# Advise users to set OPENAI_API_KEY, ELEVENLABS_API_KEY, and LLAMACLOUD_API_KEY there.
+
+# Specifies the Replit Nix channel to use.
+[nix]
+channel = "stable-23_11" # Or the latest stable channel
+
+# Commands to execute before running the main application command
+# These will set up the database and run necessary scripts
+[hooks]
+onBoot = """
+  set -e  # Exit immediately if a command exits with a non-zero status.
+
+  echo "Starting PostgreSQL and Jaeger..."
+  docker compose up -d
+
+  echo "Running setup scripts..."
+  uv run tools/create_llama_extract_agent.py
+  uv run tools/create_llama_cloud_index.py
+
+  echo "Running MCP server in the background..."
+  uv run src/notebookllama/server.py &
+"""
+
+# Tells Replit to use the packager and install dependencies
+[packager]
+guessImports = true
+language = "python3"
+
+# Configuration for the Replit debugger (optional, but good to have)
+[debugger]
+support = true
+
+# If your application uses a specific port, specify it here
+[[ports]]
+localPort = 8751 # Default Streamlit port
+externalPort = 80
+
+[[ports]]
+localPort = 8000 # Default MCP server port
+externalPort = 8001
+# Note: Replit typically exposes web services on port 80 (externalPort)
+# and maps it to your application's local port.
+# Streamlit's default port is 8751.
+# The MCP server runs on port 8000.
+
+# For more configuration options, refer to the Replit documentation:
+# https://docs.replit.com/programming-ide/configuring-repl#the-replit-file
